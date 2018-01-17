@@ -1,0 +1,5 @@
+
+/build/
+/dist/
+/django_activecampaign.egg-info/
+*.pyc
