@@ -4,7 +4,7 @@ django-activecampaign
 Instalação
 -------------
 ```bash
-$ pip install django-activecampaign==0.1.1
+$ pip install django-activecampaign==0.1.2
 ```
 
 Após a instalação configure seu settings.py:
