@@ -15,14 +15,14 @@ class ActiveCampaign(models.Model):
     class Meta:
         abstract = True
 
-    def request(self, method, parameters=None, data=None):
+    def request(self, method, parameters=None, action=None, data=None):
         return requests.request(
             method,
             self.end_point,
             params=[
                 ('api_output', 'json'),
                 ('api_key', self.secret),
-                ('api_action', self.__class__.__name__.lower() + '_' + inspect.stack()[1][3]),
+                ('api_action', action if action else self.__class__.__name__.lower() + '_' + inspect.stack()[1][3]),
             ] + (parameters if parameters else []),
             headers={
                 'content-type': 'application/x-www-form-urlencoded'

@@ -39,27 +39,25 @@ class Message (ActiveCampaign):
         return False
     
     def add(self):
-        data = {
-            'format': 'mime',
-            'subject': self.subject,
-            'fromemail': settings.ACTIVECAMPAIGN_FROMMAIL,
-            'fromname': settings.ACTIVECAMPAIGN_NAME,
-            'reply2': settings.ACTIVECAMPAIGN_REPLAY,
-            'priority': '3',
-            'charset': 'utf-8',
-            'encoding': 'quoted-printable',
-            'htmlconstructor': 'editor',
-            'html': self.html,
-            'p[' + str(self.list_contact.sync_key) + ']': str(self.list_contact.sync_key)
-        }
         return self.request(
             'POST',
-            None,
-            data
+            data={
+                'format': 'mime',
+                'subject': self.subject,
+                'fromemail': settings.ACTIVECAMPAIGN_FROMMAIL,
+                'fromname': settings.ACTIVECAMPAIGN_NAME,
+                'reply2': settings.ACTIVECAMPAIGN_REPLAY,
+                'priority': '3',
+                'charset': 'utf-8',
+                'encoding': 'quoted-printable',
+                'htmlconstructor': 'editor',
+                'html': self.html,
+                'p[' + str(self.list_contact.sync_key) + ']': str(self.list_contact.sync_key)
+            }
         )
 
     def delete(self, using=None, keep_parents=False):
-        r = self.request('GET', [('id', self.sync_key)])
+        r = self.request('GET', parameters=[('id', self.sync_key)])
         if r.status_code == 200:
             return super(Message, self).delete(using, keep_parents)
         return False
@@ -67,8 +65,7 @@ class Message (ActiveCampaign):
     def edit(self):
         return self.request(
             'POST',
-            None,
-            {
+            data={
                 'id': self.sync_key,
                 'format': 'mime',
                 'subject': self.subject,

@@ -41,8 +41,7 @@ class List (ActiveCampaign):
     def add(self):
         return self.request(
             'POST',
-            None,
-            {
+            data={
                 'name': self.name,
                 'subscription_notify': self.subscription_notify,
                 'unsubscription_notify': self.unsubscription_notify,
@@ -56,14 +55,13 @@ class List (ActiveCampaign):
         )
 
     def delete(self, using=None, keep_parents=False):
-        self.request('GET', [('id', self.sync_key)])
+        self.request('GET', parameters=[('id', self.sync_key)])
         return super(List, self).delete(using, keep_parents)
 
     def edit(self):
         return self.request(
             'POST',
-            None,
-            {
+            data={
                 'id': self.sync_key,
                 'name': self.name,
                 'subscription_notify': self.subscription_notify,

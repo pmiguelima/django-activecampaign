@@ -39,8 +39,7 @@ class Campaign(ActiveCampaign):
     def create(self):
         return self.request(
             'POST',
-            None,
-            {
+            data={
                 'name': self.name,
                 'sdate': self.sdate,
                 'type': "single",
@@ -53,7 +52,7 @@ class Campaign(ActiveCampaign):
         )
     
     def delete(self, using=None, keep_parents=False):
-        r = self.request('GET', [('id', self.sync_key)])
+        r = self.request('GET', parameters=[('id', self.sync_key)])
         if r.status_code == 200:
             return super(Campaign, self).delete(using, keep_parents)
         return False
